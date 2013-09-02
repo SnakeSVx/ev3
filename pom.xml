@@ -11,6 +11,7 @@
     <modules>
         <module>Lejos</module>
         <module>HelloWorld</module>
+        <module>HelloSpring</module>
     </modules>
 
     <dependencies>

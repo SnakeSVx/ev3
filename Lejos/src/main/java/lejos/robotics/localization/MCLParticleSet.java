@@ -1,13 +1,14 @@
 package lejos.robotics.localization;
 
 
-import lejos.geom.*;
 import java.io.*;
 import lejos.robotics.*;
 import lejos.robotics.mapping.RangeMap;
 import lejos.robotics.navigation.Move;
 import lejos.robotics.navigation.Pose;
 import java.util.Random;
+
+import lejos.robotics.geometry.*;
 import lejos.robotics.localization.MCLParticle;
 /*
  * WARNING: THIS CLASS IS SHARED BETWEEN THE classes AND pccomms PROJECTS.
@@ -375,7 +376,7 @@ public MCLParticleSet(RangeMap map, int numParticles, Pose initialPose,
    * Serialize the particle set to a data output stream
    *
    * @param dos the data output stream
-   * @throws java.io.IOException
+   * @throws IOException
    */
   public void dumpObject(DataOutputStream dos) throws IOException {
 	  dos.writeFloat(maxWeight);
@@ -398,7 +399,7 @@ public MCLParticleSet(RangeMap map, int numParticles, Pose initialPose,
   /**
    * Load serialized particles from a data input stream
    * @param dis the data input stream
-   * @throws java.io.IOException
+   * @throws IOException
    */
   public void loadObject(DataInputStream dis) throws IOException {
 	maxWeight = dis.readFloat();
@@ -423,7 +424,7 @@ public MCLParticleSet(RangeMap map, int numParticles, Pose initialPose,
    * @param dos the data output stream
    * @param x the x-coordinate
    * @param y the y-coordinate
-   * @throws java.io.IOException
+   * @throws IOException
    */
   public void dumpClosest(RangeReadings rr, DataOutputStream dos, float x, float y) throws IOException {
       int closest = findClosest(x, y);

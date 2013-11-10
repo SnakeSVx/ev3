@@ -14,6 +14,8 @@ import javax.microedition.lcdui.game.Sprite;
  * 8th scan line. Values of 1 represent black. 0 white. This class implements a
  * sub set of the standard lcdui Image class. Only mutable images are supported
  * and the ARGB methods are not available.
+ * 
+ * TODO: This file needs to be updated to match the EV3 image format.
  * @author Andre Nijholt & Andy Shaw
  */
 public class Image
@@ -92,9 +94,9 @@ public class Image
      * <div style="margin-left:4em;"><code>new Image(3, 5, new byte[] {(byte)0x00, (byte)0x02, (byte)0x1f})</code></div>
      * @param s The input stream for the image file.
      * @return an nxt image object.
-     * @throws java.io.IOException if an input or output error occurs or file format is not correct.
-     * @see javax.microedition.lcdui.Image
-     * @see javax.microedition.lcdui.Image#Image(int, int, byte[])
+     * @throws IOException if an input or output error occurs or file format is not correct.
+     * @see Image
+     * @see Image#Image(int, int, byte[])
      */
     public static Image createImage(InputStream s) throws IOException
     {
@@ -121,7 +123,7 @@ public class Image
      * @param h height of the source region
      * @param transform Transform to be applied
      * @return New image
-     * @see Graphics#drawRegion(Image, int, int, int, int, int, int, int, int)
+     * @see Graphics#drawRegion(javax.microedition.lcdui.Image, int, int, int, int, int, int, int, int)
      * #see game.Sprite
      */
     public static Image createImage(Image image, int x, int y, int w, int h, int transform)

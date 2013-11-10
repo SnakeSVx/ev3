@@ -481,7 +481,7 @@ public class MCLPoseProvider implements PoseProvider, MoveListener, Transmittabl
   /**
    * Dump the serialized estimate of pose to a data output stream
    * @param dos the data output stream
-   * @throws java.io.IOException
+   * @throws IOException
    */
   public void dumpObject(DataOutputStream dos) throws IOException
   {
@@ -501,7 +501,7 @@ public class MCLPoseProvider implements PoseProvider, MoveListener, Transmittabl
   /**
    * Load serialized estimated pose from a data input stream
    * @param dis the data input stream
-   * @throws java.io.IOException
+   * @throws IOException
    */
   public void loadObject(DataInputStream dis) throws IOException
   {

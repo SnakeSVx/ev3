@@ -13,7 +13,7 @@ import lejos.robotics.navigation.Waypoint;
  * NOTE: Implementations of this interface should override Object.toString() with the name of the algorithm. 
  * e.g. "A*", "Dijkstra", "Best-First", "D* Lite"
  * @author BB
- * @see Object#toString()
+ * @see java.lang.Object#toString()
  */
 public interface SearchAlgorithm {
 	

@@ -91,7 +91,7 @@ public class NativeFile
      * @param fname the name of the file to open
      * @param flags Linux style file access flags
      * @param mode Linux style file access mode
-     * @throws java.io.FileNotFoundException
+     * @throws FileNotFoundException
      */
     public NativeFile(String fname, int flags, int mode) throws FileNotFoundException
     {
@@ -104,7 +104,7 @@ public class NativeFile
      * @param fname the name of the file to open
      * @param flags Linux style file access flags
      * @param mode Linux style file access mode
-     * @throws java.io.FileNotFoundException
+     * @throws FileNotFoundException
      */
     public void open(String fname, int flags, int mode) throws FileNotFoundException
     {

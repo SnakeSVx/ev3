@@ -8,7 +8,7 @@ package lejos.robotics.objectdetection;
 /**
  * Any class implementing this interface and registering with a FeatureDetector will receive
  *  notifications when a feature is detected. 
- *  @see lejos.robotics.objectdetection.FeatureDetector#addListener(lejos.robotics.objectdetection.FeatureListener)
+ *  @see lejos.robotics.objectdetection.FeatureDetector#addListener(FeatureListener)
  *  @author BB based on concepts by Lawrie Griffiths
  *
  */

@@ -1,6 +1,7 @@
 package javax.microedition.lcdui;
 
-import lejos.nxt.LCD;
+import lejos.hardware.LCD;
+
 import javax.microedition.lcdui.game.Sprite;
 
 /**
@@ -253,7 +254,7 @@ public class Graphics
      * @param y destination
      * @param anchor location of the anchor point
      * @param rop drawing operation.
-     * @see javax.microedition.lcdui.Image
+     * @see Image
      */
     public void drawRegionRop(Image src, int sx, int sy, int w, int h, int x, int y, int anchor, int rop)
     {
@@ -590,7 +591,7 @@ public class Graphics
      * @param x destination
      * @param y destination
      * @param anchor location of the anchor point
-     * @see javax.microedition.lcdui.Image
+     * @see Image
      */
     public void drawRegion(Image src,
             int sx, int sy,
@@ -608,7 +609,7 @@ public class Graphics
      * @param x destination
      * @param y destination
      * @param anchor location of the anchor point
-     * @see javax.microedition.lcdui.Image
+     * @see Image
      */
     public void drawImage(Image src, int x, int y, int anchor)
     {

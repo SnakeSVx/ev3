@@ -61,7 +61,7 @@ public interface RegulatedMotor extends BaseMotor, Tachometer {
    * @param  angle through which the motor will rotate
    * @param immediateReturn iff true, method returns immediately, thus allowing monitoring of sensors in the calling thread. 
    * 
-   *  @see lejos.robotics.RegulatedMotor#rotate(int, boolean)
+   *  @see RegulatedMotor#rotate(int, boolean)
    */
   void rotate(int angle, boolean immediateReturn);
 
@@ -91,7 +91,7 @@ public interface RegulatedMotor extends BaseMotor, Tachometer {
    * @param  limitAngle to which the motor will rotate, and then stop (in degrees). Includes any positive or negative int, even values &gt; 360. 
    * @param immediateReturn iff true, method returns immediately, thus allowing monitoring of sensors in the calling thread.
    */
-  public void rotateTo(int limitAngle, boolean immediateReturn);
+  public void rotateTo(int limitAngle,boolean immediateReturn);  
 
   /**
    * Return the limit angle (if any)

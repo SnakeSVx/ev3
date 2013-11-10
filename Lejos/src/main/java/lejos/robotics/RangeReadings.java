@@ -87,7 +87,7 @@ public class RangeReadings extends ArrayList<RangeReading> implements Transmitta
   /**
    * Dump the readings to a DataOutputStream
    * @param dos the stream
-   * @throws java.io.IOException
+   * @throws IOException
    */
   public void dumpObject(DataOutputStream dos) throws IOException {
 	dos.writeInt(size());
@@ -101,7 +101,7 @@ public class RangeReadings extends ArrayList<RangeReading> implements Transmitta
   /**
    * Load the readings from a DataInputStream
    * @param dis the stream
-   * @throws java.io.IOException
+   * @throws IOException
    */
   public void loadObject(DataInputStream dis) throws IOException {
 	int numReadings = dis.readInt();

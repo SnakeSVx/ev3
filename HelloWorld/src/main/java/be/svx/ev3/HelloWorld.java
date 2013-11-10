@@ -1,8 +1,8 @@
 package be.svx.ev3;
 
-import lejos.nxt.Button;
-import lejos.nxt.LCD;
-import lejos.nxt.Sound;
+import lejos.hardware.Button;
+import lejos.hardware.LCD;
+import lejos.hardware.Sound;
 
 /**
  * Created with IntelliJ IDEA.

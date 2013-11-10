@@ -41,7 +41,7 @@ public class RangeFeature implements Feature, Transmittable  {
 	private Pose pose = new Pose(0,0,0);
 	
 	/**
-	 * Creates a RangeFeature containing a single RangeReading. If the {@link lejos.robotics.objectdetection.RangeFeature#getRangeReadings()}
+	 * Creates a RangeFeature containing a single RangeReading. If the {@link RangeFeature#getRangeReadings()}
 	 * method is subsequently called, it will return a RangeReadings set containing only one RangeReading (rr).
 	 * @param rr The RangeReading.
 	 */
@@ -51,7 +51,7 @@ public class RangeFeature implements Feature, Transmittable  {
 	}
 	
 	/**
-	 * Creates a RangeFeature containing multiple RangeReadings. The {@link lejos.robotics.objectdetection.RangeFeature#getRangeReading()} method
+	 * Creates a RangeFeature containing multiple RangeReadings. The {@link RangeFeature#getRangeReading()} method
 	 * will return the RangeReading with the smallest range.
 	 *  
 	 * @param rrs A (@link RangeReadings} object containing a set of {@link RangeReading} values.
@@ -64,7 +64,7 @@ public class RangeFeature implements Feature, Transmittable  {
 	}
 	
 	/**
-	 * Creates a RangeFeature containing multiple RangeReadings. The {@link lejos.robotics.objectdetection.RangeFeature#getRangeReading()} method
+	 * Creates a RangeFeature containing multiple RangeReadings. The {@link RangeFeature#getRangeReading()} method
 	 * will return the RangeReading with the smallest range.
 	 *  
 	 * @param rrs A (@link RangeReadings} object containing a set of {@link RangeReading} values.

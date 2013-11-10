@@ -2,15 +2,14 @@ package lejos.robotics.navigation;
 
 import java.util.ArrayList;
 
-import lejos.geom.Point;
-import lejos.nxt.Battery;
-import lejos.nxt.SensorPort;
-import lejos.nxt.addon.CruizcoreGyro;
+import lejos.hardware.Battery;
+import lejos.robotics.Gyroscope;
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.RegulatedMotorListener;
+import lejos.robotics.geometry.Point;
 import lejos.robotics.navigation.Pose;
-import lejos.util.Delay;
-import lejos.util.Matrix;
+import lejos.utility.Delay;
+import lejos.utility.Matrix;
 
 /*
  *          
@@ -36,7 +35,7 @@ import lejos.util.Matrix;
  * that allow the robot to move in any direction without changing heading. 
  * The robot can also spin while driving straight, and perform any kind of maneuvre the other steering and differential drive vehicles can do.
  * The odometry is computed by this class directly. 
- * For the class to work properly, take care to design the robot simmetrically, so that the three wheel axes meet in the center of the robot.</p>
+ * For the class to work properly, take care to design the robot symmetrically, so that the three wheel axes meet in the center of the robot.</p>
  * @author Daniele Benedettelli
  * 
  */
@@ -64,10 +63,11 @@ public class OmniPilot implements ArcRotateMoveController, RegulatedMotorListene
 	private float spinLinSpeed = 0; // units/s
 	private float spinAngSpeed = 0; // deg/s
 	private float spinTravelDirection = 0; // deg
+	private Battery battery;
 	
 	private double minTurnRadius = 0; // This vehicle can turn withgout moving therefore minimum turn radius = 0
 	
-	private CruizcoreGyro gyro;
+	private Gyroscope gyro;
 	
 	private boolean gyroEnabled = false;
 	
@@ -91,12 +91,14 @@ public class OmniPilot implements ArcRotateMoveController, RegulatedMotorListene
 	 */
 	public OmniPilot (float wheelDistanceFromCenter, float wheelDiameter, 
 					RegulatedMotor centralMotor, RegulatedMotor CW120degMotor, RegulatedMotor CCW120degMotor,  
-					boolean centralWheelFrontal, boolean motorReverse) {
+					boolean centralWheelFrontal, boolean motorReverse,
+					Battery battery) {
 		this.wheelBase = wheelDistanceFromCenter;
 		this.wheelDiameter = wheelDiameter;
 		this.motor1 = centralMotor;
 		this.motor2 = CCW120degMotor;
 		this.motor3 = CW120degMotor;
+		this.battery = battery;
 		motor1.addListener(this);
 		motor2.addListener(this);
 		motor3.addListener(this);
@@ -119,14 +121,15 @@ public class OmniPilot implements ArcRotateMoveController, RegulatedMotorListene
 	 * @param CCW120degMotor the motor at 120 degrees counter-clockwise from front
 	 * @param centralWheelFrontal if true, the central wheel frontal else it is facing back
 	 * @param motorReverse if motors are mounted reversed
-	 * @param gyroPort the gyro port
+	 * @param gyro the gyroscope
 	 */
 	public OmniPilot(float wheelDistanceFromCenter, float wheelDiameter, 
 			RegulatedMotor centralMotor, RegulatedMotor CW120degMotor, RegulatedMotor CCW120degMotor,  
-			boolean centralWheelFrontal, boolean motorReverse, SensorPort gyroPort) {
+			boolean centralWheelFrontal, boolean motorReverse, 
+			Battery battery, Gyroscope gyro) {
 		this(wheelDistanceFromCenter, wheelDiameter,centralMotor, CW120degMotor, CCW120degMotor,  
-				centralWheelFrontal, motorReverse);
-		gyro = new CruizcoreGyro(gyroPort);
+				centralWheelFrontal, motorReverse, battery);
+		this.gyro = gyro;
 //		gyro = new CruizcoreGyro(gyroPort), I2CPort.HIGH_SPEED);
 //		gyro = new CruizcoreGyro(gyroPort, I2CPort.LEGO_MODE);
 		gyro.reset();
@@ -306,7 +309,7 @@ private void initMatrices(boolean centralWheelForward, boolean motorReverse) {
 	}
 	
 	/**
-	 * Causes the robot to spin while moving along a linear path. This method is similar to {@link lejos.robotics.navigation.OmniPilot#moveStraight(float, int)}
+	 * Causes the robot to spin while moving along a linear path. This method is similar to {@link OmniPilot#moveStraight(float, int)}
 	 * except the robot will spin instead of holding the robot in the current direction.
 	 *
 	 * @param linSpeed the linear speed [units/s]
@@ -343,7 +346,7 @@ private void initMatrices(boolean centralWheelForward, boolean motorReverse) {
 	}
 	
 	/**
-	 * Sets the move direction. This value is then used by subsequent calls to {@link lejos.robotics.navigation.OmniPilot#steer(float)} (all three overloaded methods).
+	 * Sets the move direction. This value is then used by subsequent calls to {@link OmniPilot#steer(float)} (all three overloaded methods).
 	 *
 	 * @param dir the new move direction
 	 */
@@ -363,7 +366,7 @@ private void initMatrices(boolean centralWheelForward, boolean motorReverse) {
 	public double getMaxTravelSpeed() {
 		// it is generally assumed, that the maximum accurate speed of Motor is
 		// 100 degree/second * Voltage
-		double maxRadSec = Math.toRadians(Battery.getVoltage()*100f);
+		double maxRadSec = Math.toRadians(battery.getVoltage()*100f);
 		double[] spd = {0, maxRadSec, -maxRadSec};
 		Matrix wheelSpeeds = new Matrix(spd, 3);		
 		Matrix robotSpeeds = kMatrix.times(wheelSpeeds);
@@ -383,7 +386,7 @@ private void initMatrices(boolean centralWheelForward, boolean motorReverse) {
 	public double getRotateMaxSpeed() {
 		// it is generally assumed, that the maximum accurate speed of Motor is
 		// 100 degree/second * Voltage
-		double maxRadSec = Math.toRadians(Battery.getVoltage()*100f);
+		double maxRadSec = Math.toRadians(battery.getVoltage()*100f);
 		Matrix wheelSpeeds = new Matrix(3, 1, maxRadSec);
 		Matrix robotSpeeds = kMatrix.times(wheelSpeeds);
 		return (float) Math.abs(Math.toDegrees(robotSpeeds.get(2,0)));
@@ -571,7 +574,7 @@ private void initMatrices(boolean centralWheelForward, boolean motorReverse) {
 	}
 	
 	/**
-	 * This method moves the robot in an arc, similar to the other {@link lejos.robotics.navigation.OmniPilot#travelArc(double, double)} methods,
+	 * This method moves the robot in an arc, similar to the other {@link OmniPilot#travelArc(double, double)} methods,
 	 * except you can choose any of the 360 degree directions relative to the current heading (0) of the robot, while keeping
 	 * the heading of the robot pointed in the same direction during the move. 
 	 * 
@@ -585,7 +588,7 @@ private void initMatrices(boolean centralWheelForward, boolean motorReverse) {
 	}
 	
 	/**
-	 * This method moves the robot in an arc, similar to the other {@link lejos.robotics.navigation.OmniPilot#travelArc(double, double)} methods,
+	 * This method moves the robot in an arc, similar to the other {@link OmniPilot#travelArc(double, double)} methods,
 	 * except you can choose any of the 360 degree directions relative to the current heading (0) of the robot, while keeping
 	 * the heading of the robot pointed in the same direction during the move. 
 	 * 
@@ -605,7 +608,7 @@ private void initMatrices(boolean centralWheelForward, boolean motorReverse) {
 	}
 	
 	/**
-	 * This method moves the robot in an arc, similar to the other {@link lejos.robotics.navigation.OmniPilot#arc(double, double)} methods,
+	 * This method moves the robot in an arc, similar to the other {@link OmniPilot#arc(double, double)} methods,
 	 * except you can choose any of the 360 degree directions relative to the current heading (0) of the robot, while keeping
 	 * the heading of the robot pointed in the same direction during the move. 
 	 * 
@@ -623,7 +626,7 @@ private void initMatrices(boolean centralWheelForward, boolean motorReverse) {
 	}
 	
 	/**
-	 * This method moves the robot in an arc, similar to the other {@link lejos.robotics.navigation.OmniPilot#arc(double, double)} methods,
+	 * This method moves the robot in an arc, similar to the other {@link OmniPilot#arc(double, double)} methods,
 	 * except you can choose any of the 360 degree directions relative to the current heading (0) of the robot, while keeping
 	 * the heading of the robot pointed in the same direction during the move. 
 	 * 

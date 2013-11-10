@@ -2,8 +2,9 @@ package lejos.robotics.mapping;
 
 import java.io.*;
 import java.util.ArrayList;
-import lejos.geom.Line;
-import lejos.geom.Rectangle;
+
+import lejos.robotics.geometry.Line;
+import lejos.robotics.geometry.Rectangle;
 
 /*
  * WARNING: THIS CLASS IS SHARED BETWEEN THE classes AND pccomms PROJECTS.
@@ -64,7 +65,7 @@ public class ShapefileLoader {
 	/**
 	 * Retrieves a LineMap object from the Shapefile input stream.
 	 * @return the line map
-	 * @throws java.io.IOException
+	 * @throws IOException
 	 */
 	public LineMap readLineMap() throws IOException {
 		ArrayList <Line> lines = new ArrayList <Line> ();

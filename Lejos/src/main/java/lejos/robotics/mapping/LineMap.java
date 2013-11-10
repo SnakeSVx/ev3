@@ -1,10 +1,10 @@
 package lejos.robotics.mapping;
 
-import lejos.geom.*;
 
 import java.io.*;
 
 import lejos.robotics.Transmittable;
+import lejos.robotics.geometry.*;
 import lejos.robotics.mapping.RangeMap;
 import lejos.robotics.navigation.Pose;
 
@@ -99,7 +99,7 @@ public class LineMap implements RangeMap, Transmittable {
   /**
    * Dump the map to a DataOutputStream
    * @param dos the stream
-   * @throws java.io.IOException
+   * @throws IOException
    */
   public void dumpObject(DataOutputStream dos) throws IOException {
       dos.writeInt(lines.length);
@@ -120,7 +120,7 @@ public class LineMap implements RangeMap, Transmittable {
    * Load a map from a DataInputStream
    * 
    * @param dis the stream
-   * @throws java.io.IOException
+   * @throws IOException
    */
   public void loadObject(DataInputStream dis) throws IOException {
       lines = new Line[dis.readInt()];
@@ -147,7 +147,7 @@ public class LineMap implements RangeMap, Transmittable {
    * Create an SVG map file
    * 
    * @param fileName the name of the file to create or overwrite
-   * @throws java.io.IOException
+   * @throws IOException
    */
   public void createSVGFile(String fileName) throws IOException {
     File mapFile = new File(fileName);
